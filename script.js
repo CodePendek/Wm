@@ -35,10 +35,9 @@ imageInput.onchange = (e) => {
 			const canvas = previewCanvas;
 			const ctx = canvas.getContext('2d');
 			
-			// Kompres ukuran gambar maksimal 800px agar tidak berat
-			const scale = Math.min(800 / img.width, 800 / img.height, 1);
-			canvas.width = img.width * scale;
-			canvas.height = img.height * scale;
+			// Gunakan ukuran asli foto (tanpa kompresi)
+			canvas.width = img.width;
+			canvas.height = img.height;
 			ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
 			
 			// Set bayangan agar watermark terlihat di latar gelap/terang
@@ -47,20 +46,20 @@ imageInput.onchange = (e) => {
 			ctx.shadowOffsetY = 2;
 			ctx.shadowBlur = 3;
 			
-			const padding = 16; // jarak dari tepi
+			const padding = 20; // jarak dari tepi
 			
 			// Watermark Custom (lebih besar, konsisten)
 			if (watermarkText) {
-				ctx.font = 'bold 25px sans-serif'; // ukuran tetap
+				ctx.font = 'bold 28px sans-serif'; // ukuran tetap
 				ctx.fillStyle = 'rgba(255,255,255,0.9)';
 				ctx.textAlign = 'left';
-				ctx.fillText(watermarkText, padding, canvas.height - padding - 32);
+				ctx.fillText(watermarkText, padding, canvas.height - padding - 28);
 			}
 			
 			// Watermark Waktu (lebih kecil, konsisten)
 			const now = new Date();
 			const timeStamp = `${now.getHours().toString().padStart(2, '0')}:${now.getMinutes().toString().padStart(2, '0')} ${now.getFullYear()}/${(now.getMonth()+1).toString().padStart(2, '0')}/${now.getDate().toString().padStart(2, '0')}`;
-			ctx.font = 'bold 19px sans-serif'; // ukuran tetap
+			ctx.font = '18px sans-serif'; // ukuran tetap
 			ctx.fillStyle = 'rgba(255,255,255,0.8)';
 			ctx.fillText(timeStamp, padding, canvas.height - padding);
 			
@@ -74,7 +73,8 @@ imageInput.onchange = (e) => {
 downloadBtn.onclick = () => {
 	const link = document.createElement('a');
 	link.download = 'watermarked.jpg';
-	link.href = previewCanvas.toDataURL('image/jpeg', 0.8);
+	// Simpan dengan kualitas penuh (tidak dikompres)
+	link.href = previewCanvas.toDataURL('image/jpeg', 1.0);
 	link.click();
 };
 
@@ -97,9 +97,9 @@ shareBtn.onclick = async () => {
 		} else {
 			alert('Fitur share tidak didukung di perangkat ini.');
 		}
-	}, 'image/jpeg', 0.8);
+	}, 'image/jpeg', 1.0); // kualitas penuh
 };
 
 exitBtn.onclick = () => {
 	previewModal.style.display = 'none';
-}
+};
