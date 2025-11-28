@@ -51,7 +51,7 @@ imageInput.onchange = (e) => {
 			
 			// Watermark Custom (lebih besar, konsisten)
 			if (watermarkText) {
-				ctx.font = 'bold 45px sans-serif'; // ukuran tetap
+				ctx.font = 'bold 25px sans-serif'; // ukuran tetap
 				ctx.fillStyle = 'rgba(255,255,255,0.9)';
 				ctx.textAlign = 'left';
 				ctx.fillText(watermarkText, padding, canvas.height - padding - 32);
@@ -60,7 +60,7 @@ imageInput.onchange = (e) => {
 			// Watermark Waktu (lebih kecil, konsisten)
 			const now = new Date();
 			const timeStamp = `${now.getHours().toString().padStart(2, '0')}:${now.getMinutes().toString().padStart(2, '0')} ${now.getFullYear()}/${(now.getMonth()+1).toString().padStart(2, '0')}/${now.getDate().toString().padStart(2, '0')}`;
-			ctx.font = 'bold 30px sans-serif'; // ukuran tetap
+			ctx.font = 'bold 19px sans-serif'; // ukuran tetap
 			ctx.fillStyle = 'rgba(255,255,255,0.8)';
 			ctx.fillText(timeStamp, padding, canvas.height - padding);
 			
